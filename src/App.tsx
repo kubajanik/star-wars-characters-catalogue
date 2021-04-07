@@ -1,6 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {CharactersList} from './components/characters-list';
 import {Character} from './models/Character';
+import styled, {createGlobalStyle} from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background: #e6e4e6;
+    font-family: 'DM Sans', sans-serif;
+    margin: 0;
+  }
+`;
+
+const Container = styled.main`
+  display: flex;
+  justify-content: center;
+`;
 
 export default function App() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -12,8 +26,9 @@ export default function App() {
   }, []);
 
   return (
-    <div className="App">
+    <Container>
+      <GlobalStyle />
       <CharactersList characters={characters} />
-    </div>
+    </Container>
   );
 }
