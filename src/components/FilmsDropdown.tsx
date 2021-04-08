@@ -4,13 +4,17 @@ import styled from 'styled-components';
 import {useFilmsQuery} from '../hooks/useFilmsQuery';
 
 const StyledDropdown = styled(ReactDropdown)`
+  width: 30%;
+
   &&& .Dropdown-control {
     color: #83829a;
     border: 0;
     border-radius: 0.5rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 1rem;
+    padding: 1rem 1rem 1rem 1rem;
+  }
+
+  &&& .Dropdown-placeholder.is-selected {
+    color: #444262;
   }
 
   &&& .Dropdown-menu {
@@ -20,11 +24,25 @@ const StyledDropdown = styled(ReactDropdown)`
     max-height: unset;
   }
 
+  &&& .Dropdown-option {
+    padding: 1rem;
+    text-align: center;
+
+    &:hover, &.is-selected {
+      background: #f9f7ff;
+      color: #444262;
+    }
+  }
+
   &&& .Dropdown-arrow {
     color: #83829a;
     top: 50%;
     transform: translateY(-50%);
     right: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
   }
 `;
 

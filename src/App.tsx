@@ -6,6 +6,7 @@ import {FilmsDropdown} from './components/FilmsDropdown';
 import {useCharactersSearch} from './hooks/useCharactersSearch';
 import {useCharactersQuery} from './hooks/useCharactersQuery';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
+import Loader from 'react-spinners/FadeLoader';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -56,6 +57,7 @@ export default function App() {
 
 
   const [infiniteRef] = useInfiniteScroll({
+    rootMargin: '50px',
     loading,
     hasNextPage: data?.allCharacters.pageInfo.hasNextPage ?? false,
     onLoadMore: () => {
@@ -81,7 +83,12 @@ export default function App() {
 
       <CharactersList characters={filteredCharacters} />
 
-      {(data?.allCharacters.pageInfo.hasNextPage || loading) && <div ref={infiniteRef}>Loading...</div>}
+      {(data?.allCharacters.pageInfo.hasNextPage || loading) && (
+        <>
+          <Loader color="#444262" />
+          <div ref={infiniteRef} />
+        </>
+      )}
     </Container>
   );
 }

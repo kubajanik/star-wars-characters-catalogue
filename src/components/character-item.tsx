@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
 import {Character} from '../models/Character';
 
 const Item = styled.li<{expanded: boolean}>`
@@ -27,7 +27,13 @@ const DetailsWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   text-align: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
 `;
 
 const Grid = styled.div`

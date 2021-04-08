@@ -16,7 +16,7 @@ const List = styled.ul`
 
 const LabelsWrapper = styled.div`
   display: flex;
-  padding-bottom: 0.5rem;
+  padding: 0 1rem 0.5rem 1rem;
 
   @media (max-width: 500px) {
     flex-direction: column;
