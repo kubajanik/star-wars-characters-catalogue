@@ -23,7 +23,6 @@ const CHARACTERS_QUERY = gql`
         hasNextPage
       }
       characters: people {
-        id
         name
         birthYear
         gender

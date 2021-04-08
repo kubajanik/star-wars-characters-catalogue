@@ -46,8 +46,8 @@ export function CharactersList({characters}: Props) {
       </LabelsWrapper>
 
       <List>
-        {characters?.map((character, index) => (
-          <CharacterItem key={index} character={character} />
+        {characters?.map(character => (
+          <CharacterItem key={character.name} character={character} />
         ))}
       </List>
     </Wrapper>
