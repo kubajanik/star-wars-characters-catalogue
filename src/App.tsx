@@ -2,10 +2,10 @@ import React from 'react';
 import {CharactersList} from './components/characters-list';
 import styled, {createGlobalStyle} from 'styled-components';
 import {SearchBox} from './components/SearchBox';
-import {useBottomScrollListener} from 'react-bottom-scroll-listener';
 import {FilmsDropdown} from './components/FilmsDropdown';
 import {useCharactersSearch} from './hooks/useCharactersSearch';
 import {useCharactersQuery} from './hooks/useCharactersQuery';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -55,15 +55,17 @@ export default function App() {
   ] = useCharactersSearch(data?.allCharacters.characters);
 
 
-  useBottomScrollListener(() => {
-    if (!data?.allCharacters.pageInfo.hasNextPage) return;
-
-    fetchMore({
-      variables: {
-        after: data.allCharacters.pageInfo.endCursor
-      }
-    })
-  });
+  const [infiniteRef] = useInfiniteScroll({
+    loading,
+    hasNextPage: data?.allCharacters.pageInfo.hasNextPage ?? false,
+    onLoadMore: () => {
+      fetchMore({
+        variables: {
+          after: data?.allCharacters.pageInfo.endCursor
+        }
+      })
+    }
+  })
 
   return (
     <Container>
@@ -78,7 +80,8 @@ export default function App() {
       </FiltersSection>
 
       <CharactersList characters={filteredCharacters} />
-      {loading && <div>Loading...</div>}
+
+      {(data?.allCharacters.pageInfo.hasNextPage || loading) && <div ref={infiniteRef}>Loading...</div>}
     </Container>
   );
 }
