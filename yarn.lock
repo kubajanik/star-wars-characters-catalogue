@@ -8958,6 +8958,13 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
+react-bottom-scroll-listener@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-bottom-scroll-listener/-/react-bottom-scroll-listener-5.0.0.tgz#173ab652d2285ea8831a9b79f58d6fc70cf353d0"
+  integrity sha512-X+PE8qiTOd8H9WxrvBKG5AZFUtekWk2mR8YNXhF0Zd8HbpX8eNjPcKm4Y8EEdxmgOe6rP02r/glPI72tWNqtpw==
+  dependencies:
+    lodash.debounce "^4.0.8"
+
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"

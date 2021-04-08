@@ -4,6 +4,7 @@ import {Character} from './models/Character';
 import styled, {createGlobalStyle} from 'styled-components';
 import {useSearch} from 'react-use-search';
 import {SearchBox} from './components/SearchBox';
+import {useBottomScrollListener} from 'react-bottom-scroll-listener';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -43,14 +44,22 @@ interface Film {
 
 export default function App() {
   const [films, setFilms] = useState<Film[]>([]);
+
+  const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [page, setPage] = useState(1);
 
   const [filteredCharacters, query, handleChange] = useSearch(characters, (character, query) => {
     return character.name.includes(query)
-  }, {filter: true})
+  }, {filter: true});
+
+  useBottomScrollListener(() => setPage(page + 1));
 
   useEffect(() => {
     async function fetch() {
+      setLoading(true);
+
+      let fetchedFilms = films;
       if (!films.length) {
         const response = await window.fetch('https://swapi.dev/api/films');
 
@@ -59,21 +68,23 @@ export default function App() {
         };
         const {results}: JSONResponse = await response.json();
 
-        const films = results.map(({url, title}) => ({url, title}))
-
-        setFilms(films);
+        fetchedFilms = results.map(({url, title}) => ({url, title}));
       }
-      
-      const response = await window.fetch('https://swapi.dev/api/people');
+
+      const response = await window.fetch(`https://swapi.dev/api/people?page=${page}`);
 
       type JSONResponse = {
         results: Character[];
+        next: string;
       };
-      const {results}: JSONResponse = await response.json();
+      const {results, next}: JSONResponse = await response.json();
+
+      if (!next) return;
 
       const characters = results.map(character => {
-        const filmTitles = character.films.map(filmUrl => 
-          films.find(({url}) => url === filmUrl)?.title
+        const filmTitles = character.films.map(filmUrl => {
+          return fetchedFilms.find(({url}) => url === filmUrl)?.title
+        }
         )
           
         const {name, birth_year, gender, height} = character; 
@@ -87,11 +98,13 @@ export default function App() {
         };
       });
 
-      setCharacters(characters);
+      setFilms(fetchedFilms);
+      setCharacters(c => [...c, ...characters]);
+      setLoading(false); 
     }
 
     fetch();
-  }, [films]);
+  }, [page]);
 
 
   return (
@@ -105,6 +118,7 @@ export default function App() {
       </FiltersSection>
 
       <CharactersList characters={filteredCharacters} />
+      {loading && <h1>Loading...</h1>}
     </Container>
   );
 }
