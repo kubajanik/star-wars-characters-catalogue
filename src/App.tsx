@@ -24,6 +24,13 @@ const Container = styled.main`
   padding: 2rem;
 `;
 
+const Header = styled.h1`
+  margin: 0;
+  color: #444262;
+  font-size: 2.5rem;
+  text-align: center;
+`;
+
 const FiltersSection = styled.section`
   display: flex;
   width: 100%;
@@ -90,6 +97,8 @@ export default function App() {
   return (
     <Container>
       <GlobalStyle />
+
+      <Header>Star Wars Characters</Header>
 
       <FiltersSection>
         <SearchBox query={query} onChange={handleChange} />
