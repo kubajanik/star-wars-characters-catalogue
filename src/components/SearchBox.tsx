@@ -1,10 +1,5 @@
-import {ChangeEvent} from 'react';
 import styled from 'styled-components';
 
-interface Props {
-  query: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
-};
 
 const Input = styled.input`
   border: 0;
@@ -23,11 +18,16 @@ const Input = styled.input`
   }
 `;
 
+interface Props {
+  query: string;
+  onChange: (query: string) => void;
+};
+
 export function SearchBox({query, onChange}: Props) {
   return (
     <Input 
       value={query}
-      onChange={onChange}
+      onChange={e => onChange(e.target.value)}
       placeholder="Search by name"
     />
   );

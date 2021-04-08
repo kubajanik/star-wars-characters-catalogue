@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {CharactersList} from './components/characters-list';
 import {Character} from './models/Character';
 import styled, {createGlobalStyle} from 'styled-components';
-import {useSearch} from 'react-use-search';
 import {SearchBox} from './components/SearchBox';
 import {useBottomScrollListener} from 'react-bottom-scroll-listener';
+import {Dropdown} from './components/Dropdown';
+import {useCharactersSearch} from './hooks/useCharactersSearch';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -34,7 +35,13 @@ const Header = styled.h1`
 
 const FiltersSection = styled.section`
   display: flex;
+  justify-content: space-between;
   width: 100%;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 interface Film {
@@ -49,9 +56,7 @@ export default function App() {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [page, setPage] = useState(1);
 
-  const [filteredCharacters, query, handleChange] = useSearch(characters, (character, query) => {
-    return character.name.includes(query)
-  }, {filter: true});
+  const [filteredCharacters, {nameQuery}, {setNameQuery, setFilmQuery}] = useCharactersSearch(characters);
 
   useBottomScrollListener(() => setPage(page + 1));
 
@@ -114,7 +119,17 @@ export default function App() {
       <Header>Star Wars Characters</Header>
 
       <FiltersSection>
-        <SearchBox query={query} onChange={handleChange} />
+        <SearchBox query={nameQuery} onChange={setNameQuery} />
+
+        <Dropdown 
+          options={
+            films.map(({title}) => ({
+              label: title,
+              value: title
+            }))
+          }
+          onChange={setFilmQuery}
+        />
       </FiltersSection>
 
       <CharactersList characters={filteredCharacters} />
