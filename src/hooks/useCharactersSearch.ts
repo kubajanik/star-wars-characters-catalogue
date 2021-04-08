@@ -27,7 +27,7 @@ export function useCharactersSearch(characters: Character[] = []): CharactersSea
     setFilteredCharacters(
       characters.filter(character => 
         character.name.includes(nameQuery) && 
-        character.filmConnection.films.filter(film => film.title === filmQuery).length
+        character.filmConnection.films.filter(film => film.title.includes(filmQuery)).length
       )
     );
   }, [nameQuery, filmQuery, characters]);
