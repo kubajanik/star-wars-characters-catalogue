@@ -4,8 +4,6 @@ import {CharacterItem} from './character-item';
 
 const Wrapper = styled.div`
   width: 100%;
-  max-width: 800px;
-  padding: 2rem;
 `;
 
 const List = styled.ul`

@@ -3,6 +3,7 @@ import {CharactersList} from './components/characters-list';
 import {Character} from './models/Character';
 import styled, {createGlobalStyle} from 'styled-components';
 import {useSearch} from 'react-use-search';
+import {SearchBox} from './components/SearchBox';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -17,6 +18,15 @@ const Container = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 2rem;
+`;
+
+const FiltersSection = styled.section`
+  display: flex;
+  width: 100%;
 `;
 
 interface Film {
@@ -81,7 +91,10 @@ export default function App() {
     <Container>
       <GlobalStyle />
 
-      <input type="text" value={query} onChange={handleChange} />
+      <FiltersSection>
+        <SearchBox query={query} onChange={handleChange} />
+      </FiltersSection>
+
       <CharactersList characters={filteredCharacters} />
     </Container>
   );
