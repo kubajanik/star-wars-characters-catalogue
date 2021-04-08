@@ -29,8 +29,8 @@ interface Props {
 export function CharacterItem({character}: Props) {
   return (
     <Item>
-     <Attribute>{character.name}</Attribute>
-      <Attribute>{character.birth_year}</Attribute>
+      <Attribute>{character.name}</Attribute>
+      <Attribute>{character.birthYear}</Attribute>
       <Attribute>{character.gender}</Attribute>
     </Item>
   )

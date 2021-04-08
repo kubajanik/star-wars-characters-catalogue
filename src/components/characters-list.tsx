@@ -33,7 +33,7 @@ const Label = styled.div`
 `;
 
 interface Props {
-  characters: Character[];
+  characters?: Character[];
 };
 
 export function CharactersList({characters}: Props) {
@@ -46,7 +46,7 @@ export function CharactersList({characters}: Props) {
       </LabelsWrapper>
 
       <List>
-        {characters.map((character, index) => (
+        {characters?.map((character, index) => (
           <CharacterItem key={index} character={character} />
         ))}
       </List>

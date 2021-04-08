@@ -1,6 +1,7 @@
 import ReactDropdown, {Option} from 'react-dropdown';
 import 'react-dropdown/style.css';
 import styled from 'styled-components';
+import {useFilmsQuery} from '../hooks/useFilmsQuery';
 
 const StyledDropdown = styled(ReactDropdown)`
   &&& .Dropdown-control {
@@ -28,18 +29,24 @@ const StyledDropdown = styled(ReactDropdown)`
 `;
 
 interface Props {
-  options: Option[];
   onChange: (value: string) => void;
 };
 
-export function Dropdown({options, onChange}: Props) {
-  const dropdownOptions = [{value: '', label: 'Choose a film'}, ...options];
+export function FilmsDropdown({onChange}: Props) {
+  const {data, loading} = useFilmsQuery();
+
+  const options = data?.allFilms.films.map(({title}) => ({
+    value: title,
+    label: title
+  })) as Option[];
+
+  const defaultOption = {value: '', label: 'Choose a film'};
 
   return (
     <StyledDropdown 
-      options={dropdownOptions} 
+      options={loading ? [defaultOption] : [defaultOption, ...options]} 
       onChange={option => onChange(option.value)}
       value=""
     />
-  )
+  );
 }

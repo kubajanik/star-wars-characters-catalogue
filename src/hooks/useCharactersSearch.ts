@@ -13,7 +13,7 @@ type CharactersSearchResult = [
   }
 ];
 
-export function useCharactersSearch(characters: Character[]): CharactersSearchResult {
+export function useCharactersSearch(characters: Character[] = []): CharactersSearchResult {
   const [filteredCharacters, setFilteredCharacters] = useState<Character[]>(characters) 
   const [nameQuery, setNameQuery] = useState('');
   const [filmQuery, setFilmQuery] = useState('');
@@ -27,7 +27,7 @@ export function useCharactersSearch(characters: Character[]): CharactersSearchRe
     setFilteredCharacters(
       characters.filter(character => 
         character.name.includes(nameQuery) && 
-        character.films.join(',').includes(filmQuery)
+        character.filmConnection.films.filter(film => film.title === filmQuery).length
       )
     );
   }, [nameQuery, filmQuery, characters]);

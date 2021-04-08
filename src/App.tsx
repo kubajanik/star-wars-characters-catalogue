@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {CharactersList} from './components/characters-list';
-import {Character} from './models/Character';
 import styled, {createGlobalStyle} from 'styled-components';
 import {SearchBox} from './components/SearchBox';
 import {useBottomScrollListener} from 'react-bottom-scroll-listener';
-import {Dropdown} from './components/Dropdown';
+import {FilmsDropdown} from './components/FilmsDropdown';
 import {useCharactersSearch} from './hooks/useCharactersSearch';
+import {useCharactersQuery} from './hooks/useCharactersQuery';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -44,73 +44,25 @@ const FiltersSection = styled.section`
   }
 `;
 
-interface Film {
-  url: string;
-  title: string;
-};
 
 export default function App() {
-  const [films, setFilms] = useState<Film[]>([]);
+  const {data, loading, fetchMore} = useCharactersQuery()
+  const [
+    filteredCharacters, 
+    {nameQuery}, 
+    {setNameQuery, setFilmQuery}
+  ] = useCharactersSearch(data?.allCharacters.characters);
 
-  const [loading, setLoading] = useState(false);
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [page, setPage] = useState(1);
 
-  const [filteredCharacters, {nameQuery}, {setNameQuery, setFilmQuery}] = useCharactersSearch(characters);
+  useBottomScrollListener(() => {
+    if (!data?.allCharacters.pageInfo.hasNextPage) return;
 
-  useBottomScrollListener(() => setPage(page + 1));
-
-  useEffect(() => {
-    async function fetch() {
-      setLoading(true);
-
-      let fetchedFilms = films;
-      if (!films.length) {
-        const response = await window.fetch('https://swapi.dev/api/films');
-
-        type JSONResponse = {
-          results: Film[];
-        };
-        const {results}: JSONResponse = await response.json();
-
-        fetchedFilms = results.map(({url, title}) => ({url, title}));
+    fetchMore({
+      variables: {
+        after: data.allCharacters.pageInfo.endCursor
       }
-
-      const response = await window.fetch(`https://swapi.dev/api/people?page=${page}`);
-
-      type JSONResponse = {
-        results: Character[];
-        next: string;
-      };
-      const {results, next}: JSONResponse = await response.json();
-
-      if (!next) return;
-
-      const characters = results.map(character => {
-        const filmTitles = character.films.map(filmUrl => {
-          return fetchedFilms.find(({url}) => url === filmUrl)?.title
-        }
-        )
-          
-        const {name, birth_year, gender, height} = character; 
-
-        return {
-          name,
-          birth_year,
-          gender,
-          height,
-          films: filmTitles as string[]
-        };
-      });
-
-      setFilms(fetchedFilms);
-      setCharacters(c => [...c, ...characters]);
-      setLoading(false); 
-    }
-
-    fetch();
-  }, [page]);
-
+    })
+  });
 
   return (
     <Container>
@@ -121,19 +73,11 @@ export default function App() {
       <FiltersSection>
         <SearchBox query={nameQuery} onChange={setNameQuery} />
 
-        <Dropdown 
-          options={
-            films.map(({title}) => ({
-              label: title,
-              value: title
-            }))
-          }
-          onChange={setFilmQuery}
-        />
+        <FilmsDropdown onChange={setFilmQuery} />
       </FiltersSection>
 
       <CharactersList characters={filteredCharacters} />
-      {loading && <h1>Loading...</h1>}
+      {loading && <div>Loading...</div>}
     </Container>
   );
 }

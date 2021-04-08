@@ -1,7 +1,11 @@
+import {Film} from './Film';
+
 export interface Character {
   name: string;
-  birth_year: string;
+  birthYear: string;
   gender: string;
-  films: string[];
   height: string;
+  filmConnection: {
+    films: Film[]
+  }
 };
