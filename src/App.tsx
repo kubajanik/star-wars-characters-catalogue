@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {CharactersList} from './components/characters-list';
 import {Character} from './models/Character';
 import styled, {createGlobalStyle} from 'styled-components';
+import {useSearch} from 'react-use-search';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -14,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
 const Container = styled.main`
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
 `;
 
@@ -25,6 +27,10 @@ interface Film {
 export default function App() {
   const [films, setFilms] = useState<Film[]>([]);
   const [characters, setCharacters] = useState<Character[]>([]);
+
+  const [filteredCharacters, query, handleChange] = useSearch(characters, (character, query) => {
+    return character.name.includes(query)
+  }, {filter: true})
 
   useEffect(() => {
     async function fetch() {
@@ -68,13 +74,15 @@ export default function App() {
     }
 
     fetch();
-  }, []);
+  }, [films]);
 
 
   return (
     <Container>
       <GlobalStyle />
-      <CharactersList characters={characters} />
+
+      <input type="text" value={query} onChange={handleChange} />
+      <CharactersList characters={filteredCharacters} />
     </Container>
   );
 }
