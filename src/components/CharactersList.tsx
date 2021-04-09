@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {Character} from '../models/Character';
-import {CharacterItem} from './character-item';
+import {CharacterItem} from './CharacterItem';
 import FlipMove from 'react-flip-move';
 
 const Wrapper = styled.div`

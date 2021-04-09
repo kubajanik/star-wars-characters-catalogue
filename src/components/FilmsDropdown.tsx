@@ -22,6 +22,7 @@ const StyledDropdown = styled(ReactDropdown)`
     border-radius: 0.5rem;
     margin-top: 0.25rem;
     max-height: unset;
+    box-shadow: 0px 3px 5px 2px rgb(0 0 0 / 6%);
   }
 
   &&& .Dropdown-option {
@@ -51,7 +52,7 @@ interface Props {
 };
 
 export function FilmsDropdown({onChange}: Props) {
-  const {data, loading} = useFilmsQuery();
+  const {data, loading, error} = useFilmsQuery();
 
   const options = data?.allFilms.films.map(({title}) => ({
     value: title,
@@ -65,6 +66,7 @@ export function FilmsDropdown({onChange}: Props) {
       options={loading ? [defaultOption] : [defaultOption, ...options]} 
       onChange={option => onChange(option.value)}
       value=""
+      placeholder={error && 'Failed to fetch films'}
     />
   );
 }

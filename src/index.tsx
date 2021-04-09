@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
-import App from './App';
+import App from './components/App';
 import {ApolloClient, InMemoryCache} from '@apollo/client';
 import {ApolloProvider} from '@apollo/client/react';
 

@@ -1,8 +1,7 @@
-import {render, screen} from '@testing-library/react';
+import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import {Character} from '../../models/Character';
 import {CharacterItem} from '../CharacterItem';
-import '@testing-library/jest-dom/extend-expect';
 
 const character: Character = {
   name: 'Luke Skywalker',
@@ -37,8 +36,9 @@ test('should display more information after item was clicked', () => {
   expect(screen.queryByText(character.gender)).toBeInTheDocument();
   expect(screen.queryByText(character.height)).toBeInTheDocument();
   
-  const films = screen.getAllByRole('listitem')
-    .slice(1)
+  const filmsList = screen.getByRole('list', {name: 'films'});
+  const films = within(filmsList)
+    .getAllByRole('listitem')
     .map(item => item.textContent);
 
   const expectedFilms = character.filmConnection.films.map(film => film.title);

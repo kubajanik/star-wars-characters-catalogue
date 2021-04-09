@@ -1,10 +1,10 @@
 import React from 'react';
-import {CharactersList} from './components/characters-list';
+import {CharactersList} from './CharactersList';
 import styled, {createGlobalStyle} from 'styled-components';
-import {SearchBox} from './components/SearchBox';
-import {FilmsDropdown} from './components/FilmsDropdown';
-import {useCharactersSearch} from './hooks/useCharactersSearch';
-import {useCharactersQuery} from './hooks/useCharactersQuery';
+import {NameSearchBox} from './NameSearchBox';
+import {FilmsDropdown} from './FilmsDropdown';
+import {useCharactersSearch} from '../hooks/useCharactersSearch';
+import {useCharactersQuery} from '../hooks/useCharactersQuery';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import Loader from 'react-spinners/FadeLoader';
 
@@ -48,7 +48,7 @@ const FiltersSection = styled.section`
 
 
 export default function App() {
-  const {data, loading, fetchMore} = useCharactersQuery()
+  const {data, loading, error, fetchMore} = useCharactersQuery()
   const [
     filteredCharacters, 
     {nameQuery}, 
@@ -57,7 +57,7 @@ export default function App() {
 
 
   const [infiniteRef] = useInfiniteScroll({
-    rootMargin: '50px',
+    rootMargin: '100px',
     loading,
     hasNextPage: data?.allCharacters.pageInfo.hasNextPage ?? false,
     onLoadMore: () => {
@@ -76,7 +76,7 @@ export default function App() {
       <Header>Star Wars Characters</Header>
 
       <FiltersSection>
-        <SearchBox query={nameQuery} onChange={setNameQuery} />
+        <NameSearchBox name={nameQuery} onChange={setNameQuery} />
 
         <FilmsDropdown onChange={setFilmQuery} />
       </FiltersSection>
@@ -89,6 +89,8 @@ export default function App() {
           <div ref={infiniteRef} />
         </>
       )}
+
+      {error && <div>Failed to fetch characters</div>}
     </Container>
   );
 }

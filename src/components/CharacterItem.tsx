@@ -92,7 +92,7 @@ export const CharacterItem = forwardRef(({character}: Props, ref: ForwardedRef<H
             <Value>{character.gender}</Value>
           </Grid>
 
-          <List>
+          <List aria-label="films">
             <Label>Films</Label> 
             {character.filmConnection.films.map(film => (
               <li key={film.title}>{film.title}</li>
