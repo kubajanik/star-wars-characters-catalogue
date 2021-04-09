@@ -52,7 +52,7 @@ interface Props {
 };
 
 export function FilmsDropdown({onChange}: Props) {
-  const {data, loading, error} = useFilmsQuery();
+  const {data, loading} = useFilmsQuery();
 
   const options = data?.allFilms.films.map(({title}) => ({
     value: title,
@@ -66,7 +66,6 @@ export function FilmsDropdown({onChange}: Props) {
       options={loading ? [defaultOption] : [defaultOption, ...options]} 
       onChange={option => onChange(option.value)}
       value=""
-      placeholder={error && 'Failed to fetch films'}
     />
   );
 }
