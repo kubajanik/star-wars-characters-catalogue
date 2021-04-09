@@ -34,7 +34,7 @@ const CHARACTERS_QUERY = gql`
         }
       }
     }
-}
+  }
 `;
 
 export function useCharactersQuery(variables: CharactersQueryVariables = {}) {

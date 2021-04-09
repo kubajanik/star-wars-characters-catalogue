@@ -1,5 +1,5 @@
 import {act, render, screen} from '@testing-library/react';
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 import {MockedProvider} from '@apollo/client/testing';
 import {FILMS_QUERY} from '../../hooks/useFilmsQuery';
 import {FilmsDropdown} from '../FilmsDropdown';
@@ -39,7 +39,7 @@ test('should display fetched films in the dropdown', async () => {
 
   await waitForRequests();
 
-  userEvent.click(screen.getByText('Choose a film'))
+  userEvent.click(screen.getByText('Choose a film'));
 
   const options = screen.getAllByRole('option').map(option => option.textContent);
   const expectedFilms = films.map(film => film.title);

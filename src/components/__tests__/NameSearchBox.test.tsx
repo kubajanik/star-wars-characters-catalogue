@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react';
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 import {NameSearchBox} from '../NameSearchBox';
 
 test('should display passed name in the input', () => {

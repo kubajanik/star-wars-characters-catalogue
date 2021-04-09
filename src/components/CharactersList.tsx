@@ -50,5 +50,5 @@ export function CharactersList({characters}: Props) {
         ))}
       </List>
     </Wrapper>
-  )
+  );
 }

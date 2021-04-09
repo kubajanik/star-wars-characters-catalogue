@@ -46,7 +46,6 @@ const FiltersSection = styled.section`
   }
 `;
 
-
 export default function App() {
   const {data, loading, error, fetchMore} = useCharactersQuery()
   const [
@@ -54,7 +53,6 @@ export default function App() {
     {nameQuery}, 
     {setNameQuery, setFilmQuery}
   ] = useCharactersSearch(data?.allCharacters.characters);
-
 
   const [infiniteRef] = useInfiniteScroll({
     rootMargin: '100px',

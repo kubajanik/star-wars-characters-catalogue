@@ -6,6 +6,6 @@ export interface Character {
   gender: string;
   height: string;
   filmConnection: {
-    films: Film[]
+    films: Film[];
   }
 };

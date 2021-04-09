@@ -13,22 +13,29 @@ type CharactersSearchResult = [
   }
 ];
 
+function filterCharacters(characters: Character[], nameQuery: string, filmQuery: string): Character[] {
+  if (nameQuery || filmQuery) {
+    return characters.filter(character => 
+      character.name.includes(nameQuery) && 
+      character.filmConnection.films.filter(film => film.title.includes(filmQuery)).length
+    );
+  } else {
+    return characters;
+  }
+}
+
 export function useCharactersSearch(characters: Character[] = []): CharactersSearchResult {
-  const [filteredCharacters, setFilteredCharacters] = useState<Character[]>(characters) 
   const [nameQuery, setNameQuery] = useState('');
   const [filmQuery, setFilmQuery] = useState('');
+  const [filteredCharacters, setFilteredCharacters] = useState<Character[]>(() => 
+    filterCharacters(characters, nameQuery, filmQuery)
+  ); 
 
   useEffect(() => {
-    if (!nameQuery && !filmQuery) {
-      setFilteredCharacters(characters);
-      return;
-    }
-
+    if (characters.length === 0) return;
+    
     setFilteredCharacters(
-      characters.filter(character => 
-        character.name.includes(nameQuery) && 
-        character.filmConnection.films.filter(film => film.title.includes(filmQuery)).length
-      )
+      filterCharacters(characters, nameQuery, filmQuery)
     );
   }, [nameQuery, filmQuery, characters]);
 

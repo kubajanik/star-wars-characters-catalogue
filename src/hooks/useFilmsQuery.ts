@@ -7,7 +7,7 @@ interface FilmsQueryResponse {
   }
 };
 
-const FILMS_QUERY = gql`
+export const FILMS_QUERY = gql`
   query allFilms {
     allFilms {
       films {

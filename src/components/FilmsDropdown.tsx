@@ -1,7 +1,7 @@
 import ReactDropdown, {Option} from 'react-dropdown';
-import 'react-dropdown/style.css';
 import styled from 'styled-components';
 import {useFilmsQuery} from '../hooks/useFilmsQuery';
+import 'react-dropdown/style.css';
 
 const StyledDropdown = styled(ReactDropdown)`
   width: 30%;

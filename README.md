@@ -3,7 +3,7 @@
 ## Info
 In my project, I used SWAPI GraphQL API (https://graphql.org/swapi-graphql) instead of The Star Wars API (https://swapi.dev/). It returns exactly the same data.
 
-## Installation
+## Setup
 
 ```
 yarn

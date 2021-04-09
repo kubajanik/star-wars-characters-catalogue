@@ -2,7 +2,7 @@ import {ForwardedRef, forwardRef, useState} from 'react';
 import styled from 'styled-components';
 import {Character} from '../models/Character';
 
-const Item = styled.li<{expanded: boolean}>`
+const Item = styled.li`
   display: flex;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -73,7 +73,6 @@ export const CharacterItem = forwardRef(({character}: Props, ref: ForwardedRef<H
   return (
     <Item 
       ref={ref}
-      expanded={expanded} 
       onClick={() => setExpanded(!expanded)} 
     >
       {expanded ? (
@@ -94,8 +93,8 @@ export const CharacterItem = forwardRef(({character}: Props, ref: ForwardedRef<H
 
           <List aria-label="films">
             <Label>Films</Label> 
-            {character.filmConnection.films.map(film => (
-              <li key={film.title}>{film.title}</li>
+            {character.filmConnection.films.map(({title}) => (
+              <li key={title}>{title}</li>
             ))}
           </List>
         </DetailsWrapper>
