@@ -19,14 +19,14 @@ const Input = styled.input`
 `;
 
 interface Props {
-  query: string;
+  name: string;
   onChange: (query: string) => void;
 };
 
-export function SearchBox({query, onChange}: Props) {
+export function NameSearchBox({name, onChange}: Props) {
   return (
     <Input 
-      value={query}
+      value={name}
       onChange={e => onChange(e.target.value)}
       placeholder="Search by name"
     />
