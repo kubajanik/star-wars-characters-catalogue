@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {ForwardedRef, forwardRef, useState} from 'react';
 import styled from 'styled-components';
 import {Character} from '../models/Character';
 
@@ -67,11 +67,15 @@ interface Props {
   character: Character;
 };
 
-export function CharacterItem({character}: Props) {
+export const CharacterItem = forwardRef(({character}: Props, ref: ForwardedRef<HTMLLIElement>) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Item expanded={expanded} onClick={() => setExpanded(!expanded)}>
+    <Item 
+      ref={ref}
+      expanded={expanded} 
+      onClick={() => setExpanded(!expanded)} 
+    >
       {expanded ? (
         <DetailsWrapper>
           <Grid>
@@ -104,4 +108,4 @@ export function CharacterItem({character}: Props) {
       )}
     </Item>
   )
-}
+})

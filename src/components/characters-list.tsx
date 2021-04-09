@@ -1,17 +1,16 @@
 import styled from 'styled-components';
 import {Character} from '../models/Character';
 import {CharacterItem} from './character-item';
+import FlipMove from 'react-flip-move';
 
 const Wrapper = styled.div`
   width: 100%;
 `;
 
-const List = styled.ul`
+const List = styled(FlipMove)`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin: 0;
-  padding: 0;
 `;
 
 const LabelsWrapper = styled.div`
